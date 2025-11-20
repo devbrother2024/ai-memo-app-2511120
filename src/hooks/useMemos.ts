@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Memo, MemoFormData } from '@/types/memo'
 import { getSupabaseClient, mapDbMemoToMemo } from '@/lib/supabaseClient'
+import type { Database } from '@/lib/supabaseClient'
+
+type DbMemoRow = Database['public']['Tables']['memos']['Row']
 
 export const useMemos = () => {
   const [memos, setMemos] = useState<Memo[]>([])
@@ -25,7 +28,8 @@ export const useMemos = () => {
           console.error('Failed to load memos:', error)
           setMemos([])
         } else {
-          const mappedMemos = (data || []).map(mapDbMemoToMemo)
+          const memoRows = (data ?? []) as DbMemoRow[]
+          const mappedMemos = memoRows.map(mapDbMemoToMemo)
           setMemos(mappedMemos)
         }
       } catch (error) {
@@ -45,7 +49,7 @@ export const useMemos = () => {
       const supabase = getSupabaseClient()
       const { data, error } = await supabase
         .from('memos')
-        .insert({
+        .insert<Database['public']['Tables']['memos']['Insert']>({
           title: formData.title,
           content: formData.content,
           category: formData.category,
@@ -58,7 +62,10 @@ export const useMemos = () => {
         throw error
       }
 
-      const newMemo = mapDbMemoToMemo(data)
+      if (!data) {
+        throw new Error('메모 생성 결과가 비어 있습니다.')
+      }
+      const newMemo = mapDbMemoToMemo(data as DbMemoRow)
       setMemos(prev => [newMemo, ...prev])
       return newMemo
     } catch (error) {
@@ -74,7 +81,7 @@ export const useMemos = () => {
         const supabase = getSupabaseClient()
         const { data, error } = await supabase
           .from('memos')
-          .update({
+          .update<Database['public']['Tables']['memos']['Update']>({
             title: formData.title,
             content: formData.content,
             category: formData.category,
@@ -88,7 +95,10 @@ export const useMemos = () => {
           throw error
         }
 
-        const updatedMemo = mapDbMemoToMemo(data)
+        if (!data) {
+          throw new Error('메모 업데이트 결과가 비어 있습니다.')
+        }
+        const updatedMemo = mapDbMemoToMemo(data as DbMemoRow)
         setMemos(prev => prev.map(memo => (memo.id === id ? updatedMemo : memo)))
       } catch (error) {
         console.error('Failed to update memo:', error)

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { generateMemoSummary } from '@/lib/gemini'
 import { createSupabaseClient } from '@/lib/supabaseClient'
+import type { Database } from '@/lib/supabaseClient'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,10 +23,13 @@ export async function POST(request: NextRequest) {
     // 메모 ID가 제공된 경우 데이터베이스에 저장
     if (memoId) {
       try {
-        const supabase = createSupabaseClient()
+        const supabase = createSupabaseClient() as SupabaseClient<Database>
         const { error: updateError } = await supabase
           .from('memos')
-          .update({ summary })
+          // Supabase 타입 정의 이슈로 인해 두 번 캐스팅하여 컴파일 오류를 회피한다.
+          .update({
+            summary,
+          } as Database['public']['Tables']['memos']['Update'] as never)
           .eq('id', memoId)
 
         if (updateError) {

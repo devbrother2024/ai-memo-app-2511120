@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { Memo } from '@/types/memo'
 
 // Supabase 데이터베이스 타입 정의
@@ -36,13 +36,18 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
     }
+    Views: Record<string, never>
+    Functions: Record<string, never>
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
 
 // Supabase 클라이언트 생성
-export function createSupabaseClient() {
+export function createSupabaseClient(): SupabaseClient<Database> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -56,7 +61,7 @@ export function createSupabaseClient() {
 }
 
 // 브라우저용 클라이언트 (클라이언트 컴포넌트에서 사용)
-export function getSupabaseClient() {
+export function getSupabaseClient(): SupabaseClient<Database> {
   if (typeof window === 'undefined') {
     throw new Error('getSupabaseClient는 클라이언트 컴포넌트에서만 사용할 수 있습니다.')
   }

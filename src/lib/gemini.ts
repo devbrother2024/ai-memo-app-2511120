@@ -86,12 +86,12 @@ ${content}
     let tags: string[] = []
     
     // 응답에서 JSON 배열 부분만 추출 (마크다운 코드 블록 제거)
-    const jsonMatch = responseText.match(/\[.*\]/s)
+    const jsonMatch = responseText.match(/\[[\s\S]*?\]/)
     const jsonText = jsonMatch ? jsonMatch[0] : responseText
 
     try {
       tags = JSON.parse(jsonText)
-    } catch (parseError) {
+    } catch {
       // JSON 파싱 실패 시 쉼표나 줄바꿈으로 분리 시도
       const cleanedText = jsonText
         .replace(/^\[|\]$/g, '')

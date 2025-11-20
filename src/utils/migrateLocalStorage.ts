@@ -1,6 +1,5 @@
-import { Memo } from '@/types/memo'
 import { localStorageUtils } from './localStorage'
-import { getSupabaseClient, mapDbMemoToMemo } from '@/lib/supabaseClient'
+import { getSupabaseClient } from '@/lib/supabaseClient'
 
 /**
  * 로컬스토리지의 메모 데이터를 Supabase로 마이그레이션합니다.
