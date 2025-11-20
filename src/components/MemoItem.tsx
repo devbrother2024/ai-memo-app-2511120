@@ -27,13 +27,12 @@ export default function MemoItem({
   }
 
   const getCategoryColor = (category: string) => {
-    // 글래스모피즘에 어울리는 반투명 뱃지 스타일
     const colors = {
-      personal: 'bg-blue-500/20 text-blue-100 border border-blue-400/30',
-      work: 'bg-green-500/20 text-green-100 border border-green-400/30',
-      study: 'bg-purple-500/20 text-purple-100 border border-purple-400/30',
-      idea: 'bg-yellow-500/20 text-yellow-100 border border-yellow-400/30',
-      other: 'bg-gray-500/20 text-gray-100 border border-gray-400/30',
+      personal: 'bg-blue-100 text-blue-800',
+      work: 'bg-green-100 text-green-800',
+      study: 'bg-purple-100 text-purple-800',
+      idea: 'bg-yellow-100 text-yellow-800',
+      other: 'bg-gray-100 text-gray-800',
     }
     return colors[category as keyof typeof colors] || colors.other
   }
@@ -48,7 +47,7 @@ export default function MemoItem({
 
   return (
     <div
-      className="glass-card rounded-xl p-6 hover:bg-white/30 transition-all duration-200 cursor-pointer group"
+      className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
       role="button"
       tabIndex={0}
       onClick={() => onSelect(memo)}
@@ -62,31 +61,31 @@ export default function MemoItem({
       {/* 헤더 */}
       <div className="flex justify-between items-start mb-3">
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 drop-shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
             {memo.title}
           </h3>
           <div className="flex items-center gap-2">
             <span
-              className={`px-2 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(memo.category)}`}
+              className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(memo.category)}`}
             >
               {MEMO_CATEGORIES[memo.category as keyof typeof MEMO_CATEGORIES] ||
                 memo.category}
             </span>
-            <span className="text-xs text-white/70">
+            <span className="text-xs text-gray-500">
               {formatDate(memo.updatedAt)}
             </span>
           </div>
         </div>
 
         {/* 액션 버튼 */}
-        <div className="flex gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="flex gap-2 ml-4">
           <button
             onClick={event =>
               handleActionClick(event, () => {
                 onEdit(memo)
               })
             }
-            className="p-2 text-white/70 hover:text-white hover:bg-white/20 rounded-lg transition-colors"
+            className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
             title="편집"
           >
             <svg
@@ -111,7 +110,7 @@ export default function MemoItem({
                 }
               })
             }
-            className="p-2 text-white/70 hover:text-red-300 hover:bg-red-500/20 rounded-lg transition-colors"
+            className="p-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
             title="삭제"
           >
             <svg
@@ -133,7 +132,7 @@ export default function MemoItem({
 
       {/* 내용 */}
       <div className="mb-4">
-        <p className="text-white/90 text-sm leading-relaxed line-clamp-3 font-medium">
+        <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
           {memo.content}
         </p>
       </div>
@@ -144,7 +143,7 @@ export default function MemoItem({
           {memo.tags.map((tag, index) => (
             <span
               key={index}
-              className="px-2 py-1 bg-white/10 text-white/90 text-xs rounded-md border border-white/20"
+              className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
             >
               #{tag}
             </span>
