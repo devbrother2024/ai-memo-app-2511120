@@ -44,14 +44,14 @@ export default function MemoList({
   return (
     <div className="space-y-6">
       {/* 검색 및 필터 */}
-      <div className="glass-panel rounded-xl p-4">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
         <div className="flex flex-col sm:flex-row gap-4">
           {/* 검색 */}
           <div className="flex-1">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg
-                  className="h-5 w-5 text-white/70"
+                  className="h-5 w-5 text-gray-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -68,7 +68,7 @@ export default function MemoList({
                 type="text"
                 value={searchQuery}
                 onChange={e => onSearchChange(e.target.value)}
-                className="glass-input block w-full pl-10 pr-3 py-2 rounded-lg placeholder-white/60 text-white focus:ring-2 focus:ring-white/40 focus:border-white/40 transition-colors"
+                className="placeholder-gray-400 text-gray-400 block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 placeholder="메모 검색..."
               />
             </div>
@@ -79,17 +79,11 @@ export default function MemoList({
             <select
               value={selectedCategory}
               onChange={e => onCategoryChange(e.target.value)}
-              className="glass-input block w-full px-3 py-2 rounded-lg text-gray-800 focus:ring-2 focus:ring-white/40 focus:border-white/40 transition-colors"
+              className="text-gray-400 block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             >
-              <option value="all" className="text-gray-800">
-                전체 카테고리
-              </option>
+              <option value="all">전체 카테고리</option>
               {DEFAULT_CATEGORIES.map(category => (
-                <option
-                  key={category}
-                  value={category}
-                  className="text-gray-800"
-                >
+                <option key={category} value={category}>
                   {MEMO_CATEGORIES[category]} ({stats.byCategory[category] || 0}
                   )
                 </option>
@@ -99,7 +93,7 @@ export default function MemoList({
         </div>
 
         {/* 통계 정보 */}
-        <div className="mt-4 flex items-center justify-between text-sm text-white/90 font-medium">
+        <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
           <div>
             {searchQuery || selectedCategory !== 'all' ? (
               <span>
@@ -116,7 +110,7 @@ export default function MemoList({
                 onSearchChange('')
                 onCategoryChange('all')
               }}
-              className="text-white hover:text-white/80 underline decoration-white/50 hover:decoration-white transition-colors"
+              className="text-blue-600 hover:text-blue-800 hover:underline"
             >
               필터 초기화
             </button>
@@ -126,10 +120,10 @@ export default function MemoList({
 
       {/* 메모 목록 */}
       {memos.length === 0 ? (
-        <div className="text-center py-12 glass-panel rounded-xl">
-          <div className="mx-auto w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4 backdrop-blur-sm">
+        <div className="text-center py-12">
+          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
             <svg
-              className="w-12 h-12 text-white"
+              className="w-12 h-12 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -142,12 +136,12 @@ export default function MemoList({
               />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-white mb-2">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
             {searchQuery || selectedCategory !== 'all'
               ? '검색 결과가 없습니다'
               : '아직 메모가 없습니다'}
           </h3>
-          <p className="text-white/80 mb-4">
+          <p className="text-gray-600 mb-4">
             {searchQuery || selectedCategory !== 'all'
               ? '다른 검색어나 카테고리를 시도해보세요.'
               : '첫 번째 메모를 작성해보세요!'}

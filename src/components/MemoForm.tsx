@@ -142,17 +142,17 @@ export default function MemoForm({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="glass-panel bg-white/90 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/40">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           {/* 헤더 */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-semibold text-gray-900">
               {editingMemo ? '메모 편집' : '새 메모 작성'}
             </h2>
             <button
               onClick={onClose}
-              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100/50 rounded-lg transition-colors"
+              className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <svg
                 className="w-5 h-5"
@@ -190,7 +190,7 @@ export default function MemoForm({
                     title: e.target.value,
                   }))
                 }
-                className="glass-input w-full px-3 py-2 rounded-lg placeholder-gray-400 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="placeholder-gray-400 text-gray-400 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 placeholder="메모 제목을 입력하세요"
                 required
               />
@@ -213,7 +213,7 @@ export default function MemoForm({
                     category: e.target.value,
                   }))
                 }
-                className="glass-input w-full px-3 py-2 rounded-lg text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="text-gray-400 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
               >
                 {DEFAULT_CATEGORIES.map(category => (
                   <option key={category} value={category}>
@@ -231,7 +231,7 @@ export default function MemoForm({
               >
                 내용 *
               </label>
-              <div data-color-mode="light" className="glass-panel rounded-lg overflow-hidden">
+              <div data-color-mode="light">
                 <MDEditor
                   value={formData.content}
                   onChange={value =>
@@ -261,13 +261,13 @@ export default function MemoForm({
                   value={tagInput}
                   onChange={e => setTagInput(e.target.value)}
                   onKeyDown={handleTagInputKeyDown}
-                  className="glass-input flex-1 px-3 py-2 rounded-lg placeholder-gray-400 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="placeholder-gray-400 text-black flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
                   placeholder="태그를 입력하고 Enter를 누르세요"
                 />
                 <button
                   type="button"
                   onClick={handleAddTag}
-                  className="px-4 py-2 glass-button text-gray-700 hover:bg-white/50 rounded-lg transition-colors"
+                  className="px-4 py-2 bg-gray-100 text-gray-700 hover:bg-gray-200 rounded-lg transition-colors"
                 >
                   추가
                 </button>
@@ -275,7 +275,7 @@ export default function MemoForm({
                   type="button"
                   onClick={handleGenerateTags}
                   disabled={isGeneratingTags}
-                  className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2 shadow-lg"
+                  className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
                 >
                   {isGeneratingTags ? (
                     <>
@@ -313,13 +313,13 @@ export default function MemoForm({
                   {formData.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100/50 border border-blue-200 text-blue-800 text-sm rounded-full backdrop-blur-sm"
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full"
                     >
                       #{tag}
                       <button
                         type="button"
                         onClick={() => handleRemoveTag(tag)}
-                        className="text-blue-600 hover:text-blue-900 ml-1"
+                        className="text-blue-600 hover:text-blue-800"
                       >
                         <svg
                           className="w-3 h-3"
@@ -342,17 +342,17 @@ export default function MemoForm({
             </div>
 
             {/* 버튼 */}
-            <div className="flex gap-3 pt-4 border-t border-gray-200/50">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50/50 glass-button rounded-lg transition-colors"
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
               >
                 취소
               </button>
               <button
                 type="submit"
-                className="flex-1 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors shadow-lg hover:shadow-xl"
+                className="flex-1 px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors"
               >
                 {editingMemo ? '수정하기' : '저장하기'}
               </button>
@@ -362,5 +362,4 @@ export default function MemoForm({
       </div>
     </div>
   )
-
 }
